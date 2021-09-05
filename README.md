@@ -6,7 +6,7 @@ Status:
 
 - other/pwntools
     - ~~elf.md~~
-    - introduction.md
+    - ~~introduction.md~~
     - logging_and_context.md
     - packing.md
     - processes_and_communication.md
