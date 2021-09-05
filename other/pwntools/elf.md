@@ -6,50 +6,46 @@ categories: pwntools
 
 # ELF
 
-The pwntools `ELF` class is the most useful class you will probably ever need, so understanding the full power of it _will_ make your life easier. Essentially, the `ELF` class allows you to look up variables at runtime and stop hardcoding.
+A classe `ELF` do pwntools expõe funcionalidades para a interação com arquivos ELF. Compreende-la irá facilitar a vida. Essencialmente, a classe permite a busca de informações em tempo de execução. Chega de endereços hardcoded (:
 
-## Creating an ELF object
-
-Creating an ELF object is very simple.
+## Criando um objeto ELF
 
 ```python
 elf = ELF('./vulnerable_program')
 ```
 
-## Getting a process
-
-Rather than specifying another process, we can just get it from the `ELF`:
+## Criando um processo a partir de um objeto ELF
 
 ```python
 p = elf.process()
 ```
 
-## The PLT and GOT
+## PLT e GOT
 
-Want to do a `ret2plt`? Easy peasy.
+Quer tentar um `ret2plt`? Fácil. Busque endereços direto no ELF.
 
 ```python
 puts_plt = elf.plt['puts']
 puts_got = elf.got['puts']
 ```
 
-## Functions
+## Funções
 
-Need to return to a function called `vuln`? Don't bother using a disassembler or debugger to find where it is.
+Precisa retornar para uma função chamada `vuln`? Não precisa mais abrir o disassembler ou debuggar.
 
 ```python
-main_address = elf.functions['vuln']
+vuln_address = elf.functions['vuln']
 ```
 
-Note that `elf.functions` returns a `Function` object, so if you only want the address you can use `elf.symbols`:
+`elf.functions` retornará um objeto `Function`, caso precise apenas do endereço em forma de `int`, use `elf.symbols`:
 
 ```python
-main_address = elf.symbols['symbol']
+vuln_address = elf.symbols['vuln']
 ```
 
 ## elf.libc
 
-When local, we can grab the `libc` the binary is running with. Easy peasy.
+Localmente podemos pegar o binário da libc que o elf está usando.
 
 ```python
 libc = elf.libc
@@ -57,7 +53,7 @@ libc = elf.libc
 
 ## elf.search\(needle, writable=False\)
 
-Search the entire binary for a specific sequence `needle` of characters. Very useful when trying to do a `ret2libc`. If `writable` is set it only checks for sections in memory that you can write to. Note this returns a **generator** so if you want the first match you have to enclose it in `next()`.
+Busque no binário por uma sequência especifica de caracteres. Útil quando se está tentando um `ret2libc`. Se `writable` for setado para `true`, a busca será feita apenas em seções de memória onde a escrita é permitida. Note que o retorno é um **generator**, então caso deseje o primeiro resultado, use `next()`.
 
 ```python
 binsh = next(libc.search(b'/bin/sh\x00'))
@@ -65,20 +61,20 @@ binsh = next(libc.search(b'/bin/sh\x00'))
 
 ## elf.address
 
-`elf.address` is the base address of the binary. If the binary does not have PIE enabled, then it's absolute; if it does, all addresses are relative \(they pretend the binary base is `0x0`\).
+`elf.address` é o endereço base do binário. Se o binário não tiver PIE habilitado, esse endereço será absoluto; se tiver, todos endereços serão relativos \(nesses casos, a base será `0x0`\).
 
-Setting the `address` value automatically updates the address of `symbols`, `got`, `plt` and `functions`, which makes it invaluable when adjusting for PIE or ASLR.
+Atualizar o valor de `address`, automaticamente atualiza o endereço de `symbols`, `got`, `plt` e `functions`, o que é útil quando ajustes são necessários em casos de proceções PIE ou ASLR.
 
-Let's say you leak the base address of `libc` while ASLR is enabled; with pwntools, it's ridiculously easy to get the location of `system` for a `ret2libc`.
+Suponhamos que você vazou o endereço base da `libc` e ASLR está habilitado; com pwntools, é ridicularmente fácil de obter o endereço de `system` para um `ret2libc`.
 
 ```python
 libc = elf.libc
-libc.address = 0xf7f23000           # You 'leaked' this
+libc.address = 0xf7f23000           # Você 'vazou' esse endereço
 
 system = libc.symbols['system']
 binsh = next(libc.search(b'/bin/sh\x00'))
 exit_addr = libc.symbols['exit']
 
-# Now you can do the ret2libc
+# E agora você pode ret2libc
 ```
 
