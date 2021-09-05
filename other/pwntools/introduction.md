@@ -1,21 +1,21 @@
 ---
 layout: post
-title: Introduction to Pwntools
+title: Introdução ao Pwntools
 tags: pwn
 categories: pwntools
 ---
 
-# Introduction
+# Introdução
 
 ## Pwntools
 
-Pwntools is an immensely powerful framework used primarily for binary exploitation, but I have also used it for an challenges that require sockets due to how simplified such interactions are with it.
+Pwntools é um poderoso framework usado principalmente para exploração de binários.
 
-Here we will be using the **python** version of pwntools, though there is also a Ruby version.
+Aqui será usada a versão **python** do pwntools.
 
-## Installation
+## Instalação
 
-The installation is as simple as it can be with python.
+A instalação é simples usando pip.
 
 ```python
 pip3 install pwntools
@@ -23,5 +23,5 @@ pip3 install pwntools
 
 ## Windows
 
-Unfortunately many features of pwntools are not available on Windows as it uses the `_curses` module, which is not available for Windows.
+Infelizmente, muitos dos recursos do pwntools não estão disponíveis no Windows por causa da ausência do módulo `_curses`.
 
