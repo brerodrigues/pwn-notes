@@ -43,4 +43,3 @@ context.bits = 64
 ```
 
 Após essa definição, sempre que forem usadas funções como `p64()` para fazer o packing de um endereço, serão usadas as informações do `context`. 
-
