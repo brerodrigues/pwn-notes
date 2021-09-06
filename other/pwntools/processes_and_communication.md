@@ -4,62 +4,57 @@ tags: pwn
 categories: pwntools
 ---
 
-# Processes and Communication
+# Processos e Comunicação
 
-## Processes
+## Processos
 
-A `process` is the main way you interact with something in pwntools, and starting one is easy.
+Um `process` é a forma principal de interação usada pelo pwntools.
 
 ```python
 p = process('./vulnerable_binary')
 ```
 
-You can also start **remote** processes and connect to sockets using `remote`:
+É possível iniciar um "processo **remoto**" e se conectar usando `remote`.
 
 ```python
-p = remote('my.special.ip', port)
+p = remote('endereco.ip.ou.url', port)
 ```
 
-## Sending Data to Processes
-
-The power of `pwntools` is incredibly simple communication with your processes.
+## Enviando dados para processos
 
 ### p.send\(data\)
 
-Sends `data` to the process. Data can either be a `string` or a `bytes-like object` - pwntools handles it all for you.
+Envia `data` para o processo `p`. `data`pode ser tanto uma `string` quando um `bytes-like-object`, pwntools lida com a conversão.
 
 ### p.sendline\(data\)
 
-Sends `data` to the process, followed by a **newline character** `\n`. Some programs require the `\n` to take in the input \(think about how you need to hit the enter key to send the data with `nc`\) while others don't.
+Envia `data` para o processo seguido de um **newline** `\n`. Algums programas requerem um `\n` quando estão recebendo uma entrada \(lembre daqueles programas que precisam de um enter após a inserção dos dados\).
 
-`p.sendline(data)` is equivalent to `p.send(data + '\n')`  
+`p.sendline(data)` é equivalente a `p.send(data + '\n')`  
 
 
 {% hint style="danger" %}
-An incorrect number of these may cause your exploit to stall when there's nothing wrong with it. This should be the first thing you check. If you're uncertain, use `p.clean()` instead.
+A falta de um **newline** ou a inserção não necessária pode ser a causa de um exploit que não funciona. Verifique qual deve ser usado.
 {% endhint %}
 
-## Receiving Data From Processes
+## Recebendo dados de processos
 
-### p.recv\(numb\)
+### p.recv\(quantidade\)
 
-Receives `numb` bytes from the process.
+Recebe determinada `quantidade` de bytes do processo.
 
-### p.recvuntil\(delimiter, drop=False\)
+### p.recvuntil\(delimitador, drop=False\)
 
-Receives all the data until it encounters the `delimiter`, after which it returns the data. If `drop` is `True` then the returned data does not include the `delimiter`.
+Retorna todos dados até que encontre o `delimitador`. Se a propriedade `drop` for `True`, remove dos dados retornados o `delimitador`.
 
 ### p.recvline\(keepends=True\)
 
-Essentially equivalent to `p.recvuntil('\n', drop=keepends)`.  
- Receives up until a `\n` is reached, then returns the data including the `\n` if `keepends` is `True`.
+O equivalente a `p.recvuntil('\n', drop=keepends)`. Ou seja, recebe dados até encontrar um caracter **new line**. Se `keepends` estiver setado como `True`, mantém o caracter **new line** `\n`.
 
 ### p.clean\(timeout=0.02\)
 
-Receives **all** data for `timeout` seconds and returns it. Another similar function is `p.recvall()`, but this regularly takes far too long to execute so `p.clean()` is much better.
+Recebe todos os dados até o tempo setado no `timeout` e limpa o buffer.
 
 ### Timeout
 
-All receiving functions all contain a `timeout` parameter as well as the other listed ones.  
- For example, `p.recv(numb=16, timeout=1)` will execute but if `numb` bytes are not received within `timeout` seconds the data is buffered for the next receiving function and an empty string `''` is returned.
-
+Todas as funções de recebimento de dados contém um parametro `timeout` opcional. Por exemplo `p.recv(1024, timeout=1)` tentará receber 1024 bytes mas se 1 segundo se passar e esse montante não for atingido, os dados ficarão no buffer e uma string vazia será retornada.
