@@ -4,14 +4,14 @@ Esse repositório é uma tentativa de fazer uma tradução livre e algumas adapt
 
 Status:
 
-- other/pwntools
+- other/~~pwntools~~
     - ~~elf.md~~
     - ~~introduction.md~~
     - ~~logging_and_context.md~~
     - ~~packing.md~~
     - ~~processes_and_communication.md~~
     - rop.md
-    - README.md
+    - ~~README.md~~
 
 
 Acessível via: https://brerodrigues.gitbook.io

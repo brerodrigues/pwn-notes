@@ -1,4 +1,4 @@
 # pwntools
 
-This Section is a run-through of the most useful features in python's `pwntools` library.
+Ess seção contém explicações sobre algumas funcionalides básicas, e algumas nem tão básicas, da framework `pwntools`.
 
