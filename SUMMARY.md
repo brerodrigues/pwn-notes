@@ -1,13 +1,13 @@
 # Table of contents
 
-* [Binary Exploitation Notes](README.md)
+* [Binary Exploitation Notas](README.md)
 
 ## Types
 
 * [Stack](types/stack/README.md)
-  * [Introduction](types/stack/introduction.md)
+  * [Introdução](types/stack/introduction.md)
   * [ret2win](types/stack/ret2win.md)
-  * [De Bruijn Sequences](types/stack/de-bruijn-sequences.md)
+  * [Sequências De Bruijn](types/stack/de-bruijn-sequences.md)
   * [Shellcode](types/stack/shellcode.md)
   * [NOPs](types/stack/nops.md)
   * [32- vs 64-bit](types/stack/32-vs-64-bit.md)
@@ -77,10 +77,12 @@
 ## Other
 
 * [pwntools](other/pwntools/README.md)
-  * [Introduction](other/pwntools/introduction.md)
-  * [Processes and Communication](other/pwntools/processes_and_communication.md)
-  * [Logging and Context](other/pwntools/logging_and_context.md)
+  * [Introdução](other/pwntools/introduction.md)
+  * [Processos e comunicação](other/pwntools/processes_and_communication.md)
+  * [Logging e Contexto](other/pwntools/logging_and_context.md)
   * [Packing](other/pwntools/packing.md)
   * [ELF](other/pwntools/elf.md)
   * [ROP](other/pwntools/rop.md)
+  * [Debug](other/pwntools/debug.md)
+  * [Shellcode](other/pwntools/shellcode.md)
 
