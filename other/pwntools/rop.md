@@ -1,38 +1,49 @@
 # ROP
 
-The `ROP` class is insanely powerful, enabling you to create readable ropchains in many less lines.
+O modulo `ROP` é poderoso e colabora na criação de ropchains com menos linhas de código.
 
-## Creating a ROP object
+## Criando um objeto ROP
 
 ```python
-rop = ROP(elf)
+rop = ROP([])
 ```
 
-## Adding Padding
+## Adicionando Padding
 
 ```python
 rop.raw('A' * 64)
 ```
 
-## Adding a Packed Value
+## Adicionando valores empacotados
 
 ```python
 rop.raw(0x12345678)
 ```
 
-## Calling the Function win\(\)
+## Buscando simples gadgets
+```python
+rop = ('./vulnerable_program')
+# buscando gadget 'pop rdi, ret'
+pop_rdi_ret_address = p64(rop.rdi.address)
+# buscando gadget 'ret'
+ret_address = p64(rop.ret.address)
+```
+
+## Chamando a função win\(\)
 
 ```python
+rop = ('./vulnerable_program')
 rop.win()
 ```
 
-And if you need parameters:
+Passando parametros para a função:
 
 ```python
+rop = ('./vulnerable_program')
 rop.win(0xdeadc0de, 0xdeadbeef)
 ```
 
-## Dumping the Logic
+## Dumping a chain ROP
 
 ```python
 from pwn import *
@@ -64,7 +75,7 @@ print(rop.dump())
 0x0058:         0x401119 flag
 ```
 
-## Sending the Chain
+## Enviando a Chain
 
 ```python
 p.sendline(rop.chain())
@@ -72,7 +83,7 @@ p.sendline(rop.chain())
 
 ## Showcase
 
-Without pwntools:
+Sem pwntools:
 
 ```python
 payload = flat(
@@ -92,7 +103,7 @@ payload = flat(
 p.sendline(payload)
 ```
 
-With pwntools:
+Com pwntools:
 
 ```python
 rop.win1(0xdeadc0de)
